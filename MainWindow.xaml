@@ -1,0 +1,86 @@
+﻿<mah:MetroWindow x:Class="SimpleTimer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SimpleTimer"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d"
+        Title="Timer" Height="600" Width="500">
+
+        
+        <Window.Resources>
+            <Style  x:Key="CgText" TargetType="ToggleButton" BasedOn="{StaticResource MahApps.Styles.ToggleButton.Circle}">
+            <Setter Property="Content" Value="&#xE768;"/>
+            <Style.Triggers>
+                    <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Content" Value="&#xE769;"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Window.Resources>
+
+
+
+        <!--// TimeView //-->
+        <Grid>
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="8*"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+            <Grid>
+                <Ellipse StrokeThickness="20" Stroke="LightGray"></Ellipse>
+                <StackPanel Orientation="Vertical" 
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Center"
+                            Margin="0,20,0,0">
+                    <Label Name="RemainTimeLabel" 
+                           Content="00:00:00" 
+                           FontSize="50"
+                           MouseLeftButtonUp="RemainTimeLabel_OnMouseLeftButtonUp"/>
+                    <Label Name="TimeAfterEndLabel" 
+                           Content="오후(hh시 mm분)"
+                           HorizontalContentAlignment="Center" 
+                           BorderThickness="2"
+                           Visibility="Hidden"/>
+                </StackPanel>
+            </Grid>
+
+            <!--// Button //-->
+
+            <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <ToggleButton 
+                            Name="CtrlTimeButton"
+                            Width="60"
+                            Height="60"
+                            FontFamily="Segoe MDL2 Assets"
+                            Grid.Column="0"
+                            Margin="0,0,5,0"
+                            FontSize="30"
+                            Style="{StaticResource CgText}"
+                            Click="CtrlTimeButton_OnClick"/>
+
+                <Button 
+                    Name="CtrlRestartButton"
+                    Style="{DynamicResource MahApps.Styles.Button.Circle}" 
+                    FontFamily="Segoe MDL2 Assets"
+                    FontSize="30"
+                    Content="&#xE72C;"
+                    Width="60"
+                    Height="60"
+                     Margin="5,0,0,0"
+                    Grid.Column="1"/>
+            </StackPanel>
+            </Grid>
+
+            <local:TimeSelector x:Name="mTimeSelector"
+                                Grid.Row="0" 
+                                Visibility="Hidden"
+                                IsVisibleChanged="MTimeSelector_OnIsVisibleChanged"/>
+
+    </Grid>
+
+
+</mah:MetroWindow>

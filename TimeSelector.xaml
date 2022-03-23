@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="SimpleTimer.TimeSelector"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SimpleTimer"
+             mc:Ignorable="d" 
+             xmlns:uc="clr-namespace:SimpleTimer"
+             IsVisibleChanged="TimeSelector_OnIsVisibleChanged">
+
+    <Grid>
+        <Rectangle Name="BackgroundRect" Opacity="0.5" Fill="White" MouseLeftButtonUp="BackgroundRect_OnMouseLeftButtonUp"/>
+        <Border Name="BgBorder" VerticalAlignment="Center" 
+                HorizontalAlignment="Center" 
+                CornerRadius="20" 
+                BorderBrush="Black" >
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="10*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label>Edit</Label>
+
+                <uc:SpinLabel Name="Hour" Grid.Column="0" Grid.Row="1"  BorderBrush="Black"/>
+                <Label Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Content=":" FontSize="20"/>
+                <uc:SpinLabel Name="Minute" Grid.Column="2" Grid.Row="1" />
+                <Label Grid.Column="3" Grid.Row="1" VerticalAlignment="Center" Content=":" FontSize="20"/>
+                <uc:SpinLabel Name="Second" Grid.Column="4" Grid.Row="1" />
+                <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Name="CtrlConfirmButton" Margin="0,0,5,0" Content="확인" Click="CtrlConfirmButton_OnClick"/>
+                    <Button Name="CtrlCancelButton" Content="취소" Click="CtrlCancelButton_OnClick"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

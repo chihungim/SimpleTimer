@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="SimpleTimer.SpinLabel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SimpleTimer"
+             mc:Ignorable="d">
+    <StackPanel Orientation="Vertical" Margin="5">
+        <Button Name="CtrlUpButton" 
+                Content="&#xE70E;" 
+                FontFamily="Segoe MDL2 Assets" 
+                FontSize="25" 
+                Click="CtrlUpButton_OnClick"/>
+        <Label Name="ValueLabel"
+               HorizontalContentAlignment="Center" 
+               FontSize="30"
+               Content="{Binding Path=Value}" ContentStringFormat="00"
+               Margin="5"/>
+            <Button  Name="CtrlDownButton" 
+                 Content="&#xE70D;" 
+                 FontFamily="Segoe MDL2 Assets" 
+                 FontSize="25"
+                 Click="CtrlDownButton_OnClick"/>
+    </StackPanel>
+</UserControl>
