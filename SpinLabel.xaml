@@ -11,11 +11,14 @@
                 FontFamily="Segoe MDL2 Assets" 
                 FontSize="25" 
                 Click="CtrlUpButton_OnClick"/>
-        <Label Name="ValueLabel"
-               HorizontalContentAlignment="Center" 
-               FontSize="30"
-               Content="{Binding Path=Value}" ContentStringFormat="00"
-               Margin="5"/>
+        <Button Name="ValueLabel" 
+                Style="{DynamicResource MahApps.Styles.Button.Hamburger}"
+                HorizontalContentAlignment="Center" 
+                FontSize="30"
+                Content="{Binding Path=Value}" 
+                ContentStringFormat="00"
+                Margin="5"/>
+
             <Button  Name="CtrlDownButton" 
                  Content="&#xE70D;" 
                  FontFamily="Segoe MDL2 Assets" 

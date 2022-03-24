@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,13 +22,15 @@ namespace SimpleTimer
     /// </summary>
     public partial class TimeSelector : UserControl
     {
+        public event EventHandler ConfirmClick;
         public TimeSelector()
         {
             InitializeComponent();
             ThemeManager.Current.ThemeSyncMode = ThemeSyncMode.SyncAll;
             ThemeManager.Current.SyncTheme();
-            BgBorder.Background = SystemParameters.WindowGlassBrush;
-
+            BgBorder.BorderBrush = SystemParameters.WindowGlassBrush;
+            Minute.TossTarget = Hour;
+            Second.TossTarget = Minute;
         }
 
         private void BackgroundRect_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -37,12 +40,20 @@ namespace SimpleTimer
 
         private void CtrlConfirmButton_OnClick(object sender, RoutedEventArgs e)
         {
-            
+            if (ConfirmClick != null)
+            {
+                ConfirmClick(this, EventArgs.Empty);
+            }
         }
 
         private void CtrlCancelButton_OnClick(object sender, RoutedEventArgs e)
         {
             Visibility = Visibility.Hidden;
+        }
+
+        private void TimeSelector_OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            
         }
     }
 }

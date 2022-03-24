@@ -9,11 +9,16 @@
              IsVisibleChanged="TimeSelector_OnIsVisibleChanged">
 
     <Grid>
-        <Rectangle Name="BackgroundRect" Opacity="0.5" Fill="White" MouseLeftButtonUp="BackgroundRect_OnMouseLeftButtonUp"/>
+        <Rectangle Name="BackgroundRect" 
+                   Opacity="0.5" 
+                   Fill="White" 
+                   MouseLeftButtonUp="BackgroundRect_OnMouseLeftButtonUp"/>
         <Border Name="BgBorder" VerticalAlignment="Center" 
                 HorizontalAlignment="Center" 
-                CornerRadius="20" 
-                BorderBrush="Black" >
+                CornerRadius="5" 
+                BorderThickness="5"
+                BorderBrush="{DynamicResource MahApps.Brushes.Border.NonActive}" 
+                Background="{DynamicResource MahApps.Brushes.Window.Background}">
             <Grid Margin="10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
@@ -29,13 +34,13 @@
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
 
-                <Label>Edit</Label>
+                <Label Grid.ColumnSpan="5">시간 수정</Label>
 
-                <uc:SpinLabel Name="Hour" Grid.Column="0" Grid.Row="1"  BorderBrush="Black"/>
+                <uc:SpinLabel x:Name="Hour" Grid.Column="0" Grid.Row="1"  Max="23"/>
                 <Label Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Content=":" FontSize="20"/>
-                <uc:SpinLabel Name="Minute" Grid.Column="2" Grid.Row="1" />
+                <uc:SpinLabel x:Name="Minute" Grid.Column="2" Grid.Row="1" Max="59"/>
                 <Label Grid.Column="3" Grid.Row="1" VerticalAlignment="Center" Content=":" FontSize="20"/>
-                <uc:SpinLabel Name="Second" Grid.Column="4" Grid.Row="1" />
+                <uc:SpinLabel x:Name="Second" Grid.Column="4" Grid.Row="1" Max="59"/>
                 <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button Name="CtrlConfirmButton" Margin="0,0,5,0" Content="확인" Click="CtrlConfirmButton_OnClick"/>
                     <Button Name="CtrlCancelButton" Content="취소" Click="CtrlCancelButton_OnClick"/>

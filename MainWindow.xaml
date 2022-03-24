@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:SimpleTimer"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
+        MinHeight="600" MinWidth="500"
         Title="Timer" Height="600" Width="500">
 
         
@@ -20,8 +21,6 @@
             </Style>
         </Window.Resources>
 
-
-
         <!--// TimeView //-->
         <Grid>
             <Grid Margin="10">
@@ -29,23 +28,41 @@
                     <RowDefinition Height="8*"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
+                <!--// Ellipse //-->
+                <Grid>
 
-            <Grid>
-                <Ellipse StrokeThickness="20" Stroke="LightGray"></Ellipse>
-                <StackPanel Orientation="Vertical" 
-                            HorizontalAlignment="Center" 
-                            VerticalAlignment="Center"
-                            Margin="0,20,0,0">
-                    <Label Name="RemainTimeLabel" 
-                           Content="00:00:00" 
-                           FontSize="50"
-                           MouseLeftButtonUp="RemainTimeLabel_OnMouseLeftButtonUp"/>
-                    <Label Name="TimeAfterEndLabel" 
-                           Content="오후(hh시 mm분)"
-                           HorizontalContentAlignment="Center" 
-                           BorderThickness="2"
-                           Visibility="Hidden"/>
-                </StackPanel>
+
+
+  
+                <Ellipse Width="400" 
+                             Height="400"
+                             StrokeThickness="20"
+                             Stroke="LightGray"></Ellipse>
+
+                    <StackPanel Orientation="Vertical" 
+                                HorizontalAlignment="Center" 
+                                VerticalAlignment="Center"
+                                Margin="0,20,0,0">
+                        <Label Name="RemainTimeLabel" 
+                               Content="00:00:00" 
+                               FontSize="50"
+                               MouseLeftButtonUp="RemainTimeLabel_OnMouseLeftButtonUp"
+                               ContentStringFormat="HH:mm:ss"/>
+                        <Border BorderThickness="2" 
+                                BorderBrush="LightGray" 
+                                CornerRadius="5" 
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Background="{DynamicResource MahApps.Brushes.SystemControlBackgroundAccent}"
+                                Visibility="Hidden">
+                            <Label Name="TimeAfterEndLabel" 
+                                   Content="{Binding Path = EndTime}"
+                                   ContentStringFormat="am/pm(HH:mm)"
+                                   HorizontalContentAlignment="Center" 
+                                   BorderThickness="2"/>
+                        </Border>
+                    </StackPanel>
+
             </Grid>
 
             <!--// Button //-->
@@ -71,14 +88,15 @@
                     Width="60"
                     Height="60"
                      Margin="5,0,0,0"
+                    Click="CtrlRestartButton_OnClick"
                     Grid.Column="1"/>
             </StackPanel>
             </Grid>
 
-            <local:TimeSelector x:Name="mTimeSelector"
+            <local:TimeSelector x:Name="MTimeSelector"
                                 Grid.Row="0" 
                                 Visibility="Hidden"
-                                IsVisibleChanged="MTimeSelector_OnIsVisibleChanged"/>
+                                ConfirmClick="MTimeSelector_OnConfirmClick"/>
 
     </Grid>
 

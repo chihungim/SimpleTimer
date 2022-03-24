@@ -23,6 +23,20 @@ namespace SimpleTimer
     /// </summary>
     public partial class SpinLabel : UserControl, INotifyPropertyChanged
     {
+        [Category("MaxNumber"), Description("Max Amount of spin")]
+        public int Max
+        {
+            get;
+            set;
+        }
+
+
+        public SpinLabel TossTarget
+        {
+            get;
+            set;
+        }
+
         private int _value;
         public int Value
         {
@@ -40,23 +54,46 @@ namespace SimpleTimer
             DataContext = this;
         }
 
+        enum Incrementer
+        {
+            Minus = -1,Plus = 1
+        }
 
+        void addValue(Incrementer d)
+        {
+            if (d == Incrementer.Plus)
+            {
+                if (Value + 1 > Max)
+                {
+                    Value = 0;
+                    if (TossTarget != null)
+                        TossTarget.addValue(d);
+                }
+                else
+                    Value++;
+            }
+            else if (d == Incrementer.Minus)
+            {
+                if (Value - 1 < 0)
+                {
+                    Value = Max;
+                    if (TossTarget != null)
+                        TossTarget.addValue(d);
+                }
+                else
+                    Value--;
+            }
+        }
 
 
         private void CtrlUpButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (Value + 1 > 99)
-                Value = 0;
-            else
-                Value++;
+            addValue(Incrementer.Plus);
         }
 
         private void CtrlDownButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (Value  - 1 <0 )
-                Value = 99;
-            else
-                Value--;
+            addValue(Incrementer.Minus);
         }
 
 
