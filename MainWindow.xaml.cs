@@ -12,6 +12,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -28,7 +29,9 @@ namespace SimpleTimer
     {
         public TimeOnly Time { get; set; }
         public TimeOnly EndTime { get; set; }
-        public TimeOnly SpentTime { get; set; }
+        public static TimeOnly SpentTime { get; set; }
+        public static double FromAngle { get; set; } = 360;
+        DoubleAnimation ProgressbarAnimation { get; set; }
 
         public DispatcherTimer MainTimer
         {
@@ -44,6 +47,7 @@ namespace SimpleTimer
 
             ThemeManager.Current.ThemeSyncMode = ThemeSyncMode.SyncAll;
             ThemeManager.Current.SyncTheme();
+            ProgressbarAnimation = new DoubleAnimation();
         }
 
         private void CtrlTimeButton_OnClick(object sender, RoutedEventArgs e)
@@ -57,31 +61,40 @@ namespace SimpleTimer
 
             EndTime = TimeOnly.FromDateTime(DateTime.Now);
             EndTime =  EndTime.Add(Time.ToTimeSpan());
+            SyncArcValue();
+
             if (CtrlTimeButton.IsChecked == true)
             {
                 MainTimer.Start();
-                TimeAfterEndLabel.Visibility = Visibility.Visible;
+                TimeAfterEndLabel.Content = EndTime;
+                TimeAfterEndLabel.Visibility = Visibility.Visible; 
             }
             else
             {
                 MainTimer.Stop();
-                TimeAfterEndLabel.Visibility = Visibility.Hidden;
+                TimeAfterEndLabel.Visibility = Visibility.Collapsed;
             }
 
         }
 
+
+        void SyncArcValue()
+        {
+            Arc.EndAngle = (SpentTime.ToTimeSpan().TotalSeconds / Time.ToTimeSpan().TotalSeconds) * 360;
+        }
 
         void SpendTime()
         {
             SpentTime = SpentTime.Add(-TimeSpan.FromSeconds(1));
             EndTime = TimeOnly.FromDateTime(DateTime.Now).Add(SpentTime.ToTimeSpan());
             RemainTimeLabel.Content = SpentTime;
-            Debug.Write((SpentTime.ToTimeSpan().TotalSeconds / Time.ToTimeSpan().TotalSeconds) * 360); 
+            SyncArcValue();
             if (SpentTime.ToTimeSpan().TotalSeconds == 0)
             {
                 CtrlTimeButton.IsChecked = false;
                 SystemSounds.Beep.Play();
                 MainTimer.Stop();
+                Arc.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -90,9 +103,9 @@ namespace SimpleTimer
         {
             if(CtrlTimeButton.IsChecked == false) 
                 MTimeSelector.Visibility = Visibility.Visible;
-
         }
 
+       
 
         private void MTimeSelector_OnConfirmClick(object? sender, EventArgs e)
         {
@@ -101,8 +114,10 @@ namespace SimpleTimer
             int s = MTimeSelector.Second.Value;
             Time = new TimeOnly(h, m, s);
             SpentTime = new TimeOnly(h, m, s);
+            SyncArcValue();
             RemainTimeLabel.Content = Time.ToString("HH:mm:ss");
             MTimeSelector.Visibility = Visibility.Hidden;
+            Arc.Visibility = Visibility.Visible;
         }
 
         private void CtrlRestartButton_OnClick(object sender, RoutedEventArgs e)
@@ -110,7 +125,10 @@ namespace SimpleTimer
             MainTimer.Stop();
             CtrlTimeButton.IsChecked = false;
             SpentTime = new TimeOnly(Time.Hour, Time.Minute, Time.Second);
+            ProgressbarAnimation.Duration = SpentTime.ToTimeSpan();
+            Arc.EndAngle = (SpentTime.ToTimeSpan().TotalSeconds / Time.ToTimeSpan().TotalSeconds) * 360;
             RemainTimeLabel.Content = SpentTime;
+            Arc.Visibility = Visibility.Visible;
         }
     }
 }

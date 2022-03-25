@@ -5,63 +5,91 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SimpleTimer"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
         mc:Ignorable="d"
         MinHeight="600" MinWidth="500"
         Title="Timer" Height="600" Width="500">
 
-        
-        <Window.Resources>
-            <Style  x:Key="CgText" TargetType="ToggleButton" BasedOn="{StaticResource MahApps.Styles.ToggleButton.Circle}">
+
+    <Window.Resources>
+        <Style  x:Key="CgText" TargetType="ToggleButton" BasedOn="{StaticResource MahApps.Styles.ToggleButton.Circle}">
             <Setter Property="Content" Value="&#xE768;"/>
             <Style.Triggers>
-                    <Trigger Property="IsChecked" Value="True">
+                <Trigger Property="IsChecked" Value="True">
                     <Setter Property="Content" Value="&#xE769;"/>
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
-        </Window.Resources>
-
-        <!--// TimeView //-->
-        <Grid>
-            <Grid Margin="10">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="8*"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <!--// Ellipse //-->
-                <Grid>
-
-
-
-  
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <!--<Storyboard x:Key="ProgressAnimation">
+            <DoubleAnimation Storyboard.TargetName="Arc"
+                             Storyboard.TargetProperty="EndAngle"
+                             From="{x:Static local:MainWindow.FromAngle}"
+                             To="0"
+                             Duration="0:0:10"
+                             ></DoubleAnimation>
+        </Storyboard>-->
+        
+    </Window.Resources>
+    
+    <!--// TimeView //-->
+    <Grid>
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="8*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <!--// Ellipse //-->
+            <Grid>
                 <Ellipse Width="400" 
                              Height="400"
                              StrokeThickness="20"
-                             Stroke="LightGray"></Ellipse>
+                             Stroke="LightGray"/>
 
-                    <StackPanel Orientation="Vertical" 
+                <ed:Arc x:Name="Arc"
+                        Width="400" Height="400" 
+                        VerticalAlignment="Center" 
+                        HorizontalAlignment="Center"
+                        ArcThickness="0"
+                        StartAngle="0"
+                        StrokeThickness="20"
+                        EndAngle="360"
+                        
+                        StrokeEndLineCap="Round"
+                        StrokeStartLineCap="Round"
+                        StrokeLineJoin="Round"
+                        Stretch="None" 
+                        StrokeDashCap="Round"
+                        Stroke="{DynamicResource MahApps.Brushes.Accent}">
+                    <ed:Arc.Effect>
+                        <DropShadowEffect ShadowDepth="5" 
+                                          Direction="60"
+                                          Color="{DynamicResource MahApps.Colors.Accent4}"
+                                          Opacity="0.5"
+                                          BlurRadius="20"/>
+
+
+                    </ed:Arc.Effect>
+                </ed:Arc>
+
+                <StackPanel Orientation="Vertical" 
                                 HorizontalAlignment="Center" 
                                 VerticalAlignment="Center"
-                                Margin="0,20,0,0">
-                        <Label Name="RemainTimeLabel" 
+                                Margin="0,5,0,0">
+                    <Label Name="RemainTimeLabel" 
                                Content="00:00:00" 
                                FontSize="50"
                                MouseLeftButtonUp="RemainTimeLabel_OnMouseLeftButtonUp"
                                ContentStringFormat="HH:mm:ss"/>
-                        <Border BorderThickness="2" 
-                                BorderBrush="LightGray" 
-                                CornerRadius="5" 
-                                VerticalAlignment="Center"
+                    <Label Name="TimeAfterEndLabel" 
+                                ContentStringFormat="am/pm(HH:mm)"
+                                FontSize="20"
+                                HorizontalContentAlignment="Center" 
+                                BorderThickness="2" 
                                 HorizontalAlignment="Center"
-                                Background="{DynamicResource MahApps.Brushes.SystemControlBackgroundAccent}"
-                                Visibility="Hidden">
-                            <Label Name="TimeAfterEndLabel" 
-                                   Content="{Binding Path = EndTime}"
-                                   ContentStringFormat="am/pm(HH:mm)"
-                                   HorizontalContentAlignment="Center" 
-                                   BorderThickness="2"/>
-                        </Border>
-                    </StackPanel>
+                                VerticalAlignment="Center"
+                                Visibility="Collapsed"/>
+                    
+                </StackPanel>
 
             </Grid>
 
@@ -91,9 +119,9 @@
                     Click="CtrlRestartButton_OnClick"
                     Grid.Column="1"/>
             </StackPanel>
-            </Grid>
+        </Grid>
 
-            <local:TimeSelector x:Name="MTimeSelector"
+        <local:TimeSelector x:Name="MTimeSelector"
                                 Grid.Row="0" 
                                 Visibility="Hidden"
                                 ConfirmClick="MTimeSelector_OnConfirmClick"/>
