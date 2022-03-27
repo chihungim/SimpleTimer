@@ -7,4 +7,4 @@
 </p>
 
 # How to use 
-Download the lastest version from release
+Download the lastest version from releases
